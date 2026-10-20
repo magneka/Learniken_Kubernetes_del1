@@ -1,0 +1,37 @@
+# Kubernetes deployment for the Spring Boot app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: learniken-spring-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-app
+  template:
+    metadata:
+      labels:
+        app: spring-app
+    spec:
+      containers:
+      - name: spring-app
+        image: magneka/learniken-spring-app:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: PORT
+          value: "80"
+        # Enter stuff here
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: learniken-spring-app-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8087
+    targetPort: 80
+  selector:
+    app: spring-app

@@ -1,0 +1,23 @@
+{
+  "name": "simple-nestjs-ts-app",
+  "version": "1.0.0",
+  "description": "NestJS TypeScript Hello World Application",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "start:dev": "tsc --watch",
+    "start:debug": "node --inspect=0.0.0.0:9229 dist/main.js"
+  },
+  "dependencies": {
+    "@nestjs/common": "11.0.11",
+    "@nestjs/core": "11.0.11",
+    "@nestjs/platform-express": "11.0.11",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "typescript": "5.7.3"
+  }
+}

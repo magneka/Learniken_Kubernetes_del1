@@ -1,0 +1,39 @@
+# Kubernetes deployment for the Rust app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: learniken-rust-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rust-app
+  template:
+    metadata:
+      labels:
+        app: rust-app
+    spec:
+      containers:
+      - name: rust-app
+        image: magneka/learniken-rust-app:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: PORT
+          value: "80"
+        - name: RUST_BACKTRACE
+          value: "1"
+        # Enter stuff here
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: learniken-rust-app-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8088
+    targetPort: 80
+  selector:
+    app: rust-app

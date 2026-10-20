@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: learniken-nestjs-scaler
+  namespace: default
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: learniken-nestjs-ts-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nestjs-ts-app
+  template:
+    metadata:
+      labels:
+        app: nestjs-ts-app
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "80"
+    spec:
+      containers:
+      - name: nestjs-ts-app
+        image: magneka/learniken-nestjs-ts-app:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        env:
+        - name: PORT
+          value: "80"
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 2
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: learniken-nestjs-ts-app-service
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: "8084"
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8084
+    targetPort: 80
+  selector:
+    app: nestjs-ts-app
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: learniken-nestjs-ts-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: learniken-nestjs-ts-app
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Pods
+    pods:
+      metric:
+        name: requests_per_second
+      target:
+        type: AverageValue
+        averageValue: 100

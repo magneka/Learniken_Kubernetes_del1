@@ -1,0 +1,12 @@
+{
+  "name": "simple-express-app",
+  "version": "1.0.0",
+  "description": "Express Hello World Application",
+  "main": "source/index.js",
+  "scripts": {
+    "start": "node source/index.js"
+  },
+  "dependencies": {
+    "express": "4.17.1"
+  }
+}

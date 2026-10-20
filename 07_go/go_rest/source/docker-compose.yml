@@ -1,0 +1,17 @@
+name: 07_go
+
+services:
+  go_rest:
+    build: .
+    container_name: go-rest-api
+    ports:
+      - "8086:80"
+    environment:
+      - PORT=80
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped

@@ -1,0 +1,10 @@
+bin/
+obj/
+*.exe
+*.test
+*.out
+*.bin
+Dockerfile
+docker-compose.yml
+kubernetes.yaml
+README.md

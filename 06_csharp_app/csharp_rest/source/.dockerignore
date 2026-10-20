@@ -1,0 +1,73 @@
+# Directories
+bin/
+obj/
+**/bin/
+**/obj/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Solution files (optional - uncomment if you don't want them copied)
+# *.sln
+# *.csproj
+# *.csproj.user
+
+# Build results
+*.exe
+*.dll
+*.pdb
+*.manifest
+*.cache
+*.log
+
+# NuGet packages
+packages/
+**/packages/
+
+# Test results
+TestResults/
+**/TestResults/
+
+# IDE files
+.idea/
+.vs/
+*.swp
+*.swo
+
+# Git files
+.git/
+.gitignore
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Kubernetes files
+kubernetes.yaml
+
+# Scripts
+scripts/
+
+# Documentation
+*.md
+
+# Environment files
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Publish output
+publish/
+**/publish/

@@ -1,0 +1,17 @@
+{
+  "name": "simple-koa-ts-app",
+  "version": "1.0.0",
+  "description": "Koa TypeScript Hello World Application",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "koa": "2.15.3"
+  },
+  "devDependencies": {
+    "@types/koa": "2.15.0",
+    "typescript": "5.7.3"
+  }
+}

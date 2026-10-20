@@ -1,0 +1,28 @@
+# Nginx Deployment. The HTML ConfigMap is generated from index.html by start.sh.
+apiVersion: apps/v1 # API group and version that defines Deployment objects.
+kind: Deployment # Create a Deployment, which keeps a set of identical pods running.
+metadata: # Data that identifies this object rather than describing its behaviour.
+  name: nginx-example-yaml # Object name, used by the scripts in kubectl commands.
+spec: # The desired state that Kubernetes continuously works to reach.
+  replicas: 1 # Run exactly one pod; raise this number to run more copies.
+  selector: # Tells the Deployment which pods it owns.
+    matchLabels: # Own every pod carrying all of the labels listed below.
+      app: nginx-example-yaml # The label the Deployment looks for; must match the pod label.
+  template: # Blueprint used to create each pod.
+    metadata: # Identifying data applied to every pod created from this blueprint.
+      labels: # Labels stamped on the pod so the selector above can find it.
+        app: nginx-example-yaml # Must be identical to the selector label.
+    spec: # Describes what runs inside the pod.
+      containers: # List of containers in the pod; this pod has only one.
+        - name: nginx # Container name, used in logs and kubectl commands.
+          image: nginx:stable-alpine # Official Nginx image pulled automatically; no local build needed.
+          ports: # Ports the container exposes, mainly as documentation.
+            - containerPort: 80 # Nginx serves HTTP on port 80 inside the pod.
+          volumeMounts: # Attaches volumes defined below into this container.
+            - name: html # Refers to the volume named html further down.
+              mountPath: /usr/share/nginx/html # Directory Nginx serves files from.
+              readOnly: true # The web page is never written to by the container.
+      volumes: # Storage made available to the containers in this pod.
+        - name: html # Volume name referenced by the volumeMount above.
+          configMap: # Fill the volume with the contents of a ConfigMap.
+            name: nginx-example-yaml-html # ConfigMap that start.sh generates from index.html.
